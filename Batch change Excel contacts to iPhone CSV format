@@ -1,0 +1,26 @@
+# 把通讯录存为txl.csv，格式姓名、职务、移动号码，导出为txl.vcf
+
+import csv
+
+# CSV 文件路径
+csv_file = 'txl.csv'
+# vCard 输出文件路径
+vcard_file = 'txl.vcf'
+
+# 读取 CSV 文件并转换为 vCard
+with open(csv_file, newline='', encoding='utf-8') as csvfile, \
+        open(vcard_file, 'w', encoding='utf-8') as vcf:
+    reader = csv.reader(csvfile)
+    for row in reader:
+        # 假设 CSV 文件的每行格式为 [姓名, 职务, 移动号码]
+        name, title, phone = row
+
+        # 写入 vCard 格式
+        vcf.write('BEGIN:VCARD\n')
+        vcf.write('VERSION:3.0\n')
+        vcf.write(f'N:{name}\n')
+        vcf.write(f'FN:{title}\n')
+        vcf.write(f'TEL;CELL:{phone}\n')
+        vcf.write('END:VCARD\n')
+
+print("vCard 文件生成完毕。")
